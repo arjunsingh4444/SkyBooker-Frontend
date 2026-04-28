@@ -1,0 +1,116 @@
+.seats-container {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.seats-header {
+  margin-bottom: 2rem;
+}
+
+.seats-layout-wrapper {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-xl);
+  padding: 3rem;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 2rem;
+  position: relative;
+  border: 1px solid #e2e8f0;
+}
+
+.plane-front, .plane-back {
+  background: #f1f5f9;
+  color: var(--color-text-muted);
+  padding: 0.5rem;
+  border-radius: var(--radius-full);
+  margin: 1rem auto;
+  width: 120px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+}
+
+.seats-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Creates the aisle space between columns 3 and 4 */
+.seats-grid > :nth-child(6n + 4) {
+  margin-left: 2rem;
+}
+
+.seat-box {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px 8px 4px 4px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: 2px solid transparent;
+}
+
+.seat-box.available {
+  background-color: #dbeafe;
+  color: var(--color-primary-dark);
+}
+
+.seat-box.available:hover {
+  background-color: #bfdbfe;
+  transform: translateY(-2px);
+}
+
+.seat-box.booked {
+  background-color: #f1f5f9;
+  color: #94a3b8;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.seat-box.locked {
+  background-color: #fef08a;
+  color: #854d0e;
+  cursor: not-allowed;
+}
+
+.seat-box.selected {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.seat-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  position: sticky;
+  bottom: 2rem;
+}
+
+.summary-info h3 {
+  margin: 0;
+  color: var(--color-primary-dark);
+}
+
+.seat-class {
+  margin: 0;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.summary-price h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--color-secondary);
+}

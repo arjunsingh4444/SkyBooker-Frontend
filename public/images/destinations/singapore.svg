@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+  <defs>
+    <linearGradient id="skysg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0c0c1d"/>
+      <stop offset="50%" style="stop-color:#1a237e"/>
+      <stop offset="100%" style="stop-color:#283593"/>
+    </linearGradient>
+    <linearGradient id="watersg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a237e"/>
+      <stop offset="100%" style="stop-color:#0d47a1"/>
+    </linearGradient>
+  </defs>
+  <!-- Sky -->
+  <rect width="800" height="400" fill="url(#skysg)"/>
+  <!-- Water -->
+  <rect x="0" y="270" width="800" height="130" fill="url(#watersg)" opacity="0.7"/>
+  <!-- Marina Bay Sands - 3 Towers -->
+  <rect x="250" y="80" width="60" height="190" fill="#37474f" rx="3" transform="rotate(-2 280 175)"/>
+  <rect x="360" y="80" width="60" height="190" fill="#37474f" rx="3"/>
+  <rect x="470" y="80" width="60" height="190" fill="#37474f" rx="3" transform="rotate(2 500 175)"/>
+  <!-- SkyPark on top -->
+  <ellipse cx="390" cy="80" rx="160" ry="12" fill="#546e7a"/>
+  <rect x="240" y="68" width="300" height="12" fill="#546e7a" rx="6"/>
+  <!-- ArtScience Museum (lotus shape) -->
+  <path d="M 120 270 Q 130 200 150 230 Q 160 190 170 230 Q 180 180 190 230 Q 200 190 210 230 Q 220 200 230 270 Z" fill="#78909c" stroke="#90a4ae" stroke-width="1"/>
+  <!-- Helix Bridge -->
+  <path d="M 0 275 Q 60 260 120 270" stroke="#e0e0e0" stroke-width="2" fill="none"/>
+  <!-- Reflections in water -->
+  <rect x="260" y="275" width="50" height="80" fill="#37474f" opacity="0.3"/>
+  <rect x="370" y="275" width="50" height="80" fill="#37474f" opacity="0.3"/>
+  <rect x="480" y="275" width="50" height="80" fill="#37474f" opacity="0.3"/>
+  <!-- Building lights -->
+  <rect x="270" y="100" width="4" height="4" fill="#64ffda" opacity="0.8"/>
+  <rect x="280" y="130" width="4" height="4" fill="#64ffda" opacity="0.6"/>
+  <rect x="270" y="160" width="4" height="4" fill="#64ffda" opacity="0.7"/>
+  <rect x="290" y="190" width="4" height="4" fill="#64ffda" opacity="0.5"/>
+  <rect x="380" y="100" width="4" height="4" fill="#64ffda" opacity="0.8"/>
+  <rect x="390" y="140" width="4" height="4" fill="#64ffda" opacity="0.7"/>
+  <rect x="380" y="170" width="4" height="4" fill="#64ffda" opacity="0.6"/>
+  <rect x="400" y="200" width="4" height="4" fill="#64ffda" opacity="0.5"/>
+  <rect x="490" y="110" width="4" height="4" fill="#64ffda" opacity="0.7"/>
+  <rect x="500" y="150" width="4" height="4" fill="#64ffda" opacity="0.8"/>
+  <rect x="490" y="180" width="4" height="4" fill="#64ffda" opacity="0.6"/>
+  <rect x="505" y="210" width="4" height="4" fill="#64ffda" opacity="0.5"/>
+  <!-- Background buildings -->
+  <rect x="550" y="180" width="30" height="90" fill="#263238" rx="2"/>
+  <rect x="590" y="200" width="25" height="70" fill="#263238" rx="2"/>
+  <rect x="625" y="160" width="35" height="110" fill="#1a237e" opacity="0.6" rx="2"/>
+  <rect x="670" y="190" width="28" height="80" fill="#263238" rx="2"/>
+  <rect x="710" y="210" width="25" height="60" fill="#1a237e" opacity="0.5" rx="2"/>
+  <!-- Stars -->
+  <circle cx="80" cy="40" r="1.5" fill="white" opacity="0.8"/>
+  <circle cx="200" cy="25" r="1" fill="white" opacity="0.6"/>
+  <circle cx="350" cy="15" r="1.5" fill="white" opacity="0.7"/>
+  <circle cx="500" cy="30" r="1" fill="white" opacity="0.5"/>
+  <circle cx="650" cy="20" r="1.5" fill="white" opacity="0.8"/>
+  <circle cx="750" cy="45" r="1" fill="white" opacity="0.6"/>
+  <!-- SkyPark light glow -->
+  <ellipse cx="390" cy="70" rx="140" ry="5" fill="#64ffda" opacity="0.15"/>
+  <!-- Water ripples -->
+  <line x1="100" y1="310" x2="200" y2="310" stroke="white" stroke-width="0.5" opacity="0.15"/>
+  <line x1="300" y1="330" x2="450" y2="330" stroke="white" stroke-width="0.5" opacity="0.1"/>
+  <line x1="500" y1="350" x2="650" y2="350" stroke="white" stroke-width="0.5" opacity="0.12"/>
+</svg>
