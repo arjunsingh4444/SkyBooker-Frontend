@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "sonar": "sonar-scanner"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.0.1",
+    "sonarqube-scanner": "^4.3.6",
     "vite": "^8.0.10"
   }
 }

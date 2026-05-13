@@ -10,6 +10,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
     if (user && user.email) {
@@ -20,6 +21,7 @@ const Navbar = () => {
             // Filter global history for this user
             const myNotifs = res.data.data.filter(n => n.recipient === user.email);
             setNotifications(myNotifs);
+            setUnreadCount(myNotifs.length);
           }
         } catch (err) {
           console.error('Failed to load notifications');
@@ -59,13 +61,13 @@ const Navbar = () => {
             
             <div style={{ position: 'relative' }}>
               <button 
-                onClick={() => setShowNotifications(!showNotifications)} 
+                onClick={() => { setShowNotifications(!showNotifications); setUnreadCount(0); }} 
                 style={{ background: 'none', border: 'none', cursor: 'pointer', position: 'relative', display: 'flex', alignItems: 'center', color: '#334155' }}
               >
                 <Bell size={20} />
-                {notifications.length > 0 && (
+                {unreadCount > 0 && (
                   <span style={{ position: 'absolute', top: '-5px', right: '-5px', background: '#ef4444', color: 'white', fontSize: '0.7rem', fontWeight: 'bold', padding: '2px 6px', borderRadius: '10px' }}>
-                    {notifications.length}
+                    {unreadCount}
                   </span>
                 )}
               </button>
@@ -94,9 +96,12 @@ const Navbar = () => {
               )}
             </div>
 
-            <span className="user-greeting" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Link to="/profile" className="user-greeting" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', color: 'inherit', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: '8px', transition: 'background 0.15s' }}
+              onMouseEnter={e => e.currentTarget.style.background = '#f1f5f9'}
+              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+            >
               <UserIcon size={18} /> {user.fullName || 'User'}
-            </span>
+            </Link>
             <button onClick={handleLogout} className="btn-logout">
               <LogOut size={16} /> Logout
             </button>

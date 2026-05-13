@@ -112,6 +112,9 @@ const FlightManagement = () => {
           <button onClick={() => navigate('/admin/bookings')} className="btn btn-secondary" style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             Bookings
           </button>
+          <button onClick={() => navigate('/admin/users')} className="btn btn-secondary" style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            Users
+          </button>
           <button onClick={() => navigate('/admin/seats')} className="btn btn-secondary" style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             Seats
           </button>

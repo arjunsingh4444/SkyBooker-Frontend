@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { bookingClient } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Search, XCircle, FileText } from 'lucide-react';
+import { Search, XCircle, FileText, Edit3, Save } from 'lucide-react';
 import './Admin.css';
 
 const BookingManagement = () => {
@@ -12,6 +12,8 @@ const BookingManagement = () => {
   const [loading, setLoading] = useState(true);
   const [searchPnr, setSearchPnr] = useState('');
   const [selectedBooking, setSelectedBooking] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editForm, setEditForm] = useState({ passengerName: '', seatNumber: '', status: '' });
 
   useEffect(() => {
     if (user && user.role !== 'Admin') {
@@ -73,8 +75,31 @@ const BookingManagement = () => {
     try {
       const res = await bookingClient.get(`/Booking/${id}`);
       setSelectedBooking(res.data.data);
+      setIsEditing(false);
     } catch (err) {
       alert('Failed to load booking details');
+    }
+  };
+
+  const handleEditClick = (booking) => {
+    setSelectedBooking(booking);
+    setEditForm({
+      passengerName: booking.passengerName || '',
+      seatNumber: booking.seatNumber || '',
+      status: booking.status || 'Confirmed'
+    });
+    setIsEditing(true);
+  };
+
+  const handleSaveEdit = async () => {
+    try {
+      await bookingClient.put(`/Booking/${selectedBooking.id}`, editForm);
+      alert('Booking updated successfully.');
+      setIsEditing(false);
+      setSelectedBooking(null);
+      fetchAllBookings();
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to update booking.');
     }
   };
 
@@ -84,6 +109,7 @@ const BookingManagement = () => {
         <h1 className="admin-title">Booking Management</h1>
         <div style={{ display: 'flex', gap: '1rem' }}>
           <button onClick={() => navigate('/admin')} className="btn btn-secondary">Flights</button>
+          <button onClick={() => navigate('/admin/users')} className="btn btn-secondary">Users</button>
           <button onClick={() => navigate('/admin/seats')} className="btn btn-secondary">Seats</button>
           <button onClick={() => navigate('/admin/notifications')} className="btn btn-secondary">Notifications</button>
         </div>
@@ -146,6 +172,9 @@ const BookingManagement = () => {
                       <button className="btn-icon" title="View Details" onClick={() => viewDetails(b.id)} style={{ color: '#0ea5e9' }}>
                         <FileText size={18} />
                       </button>
+                      <button className="btn-icon" title="Edit Booking" onClick={() => handleEditClick(b)} style={{ color: '#f59e0b' }}>
+                        <Edit3 size={18} />
+                      </button>
                       {b.status !== 'Cancelled' && (
                         <button className="btn-icon delete" title="Cancel Booking" onClick={() => handleCancelBooking(b.id)}>
                           <XCircle size={18} />
@@ -168,24 +197,58 @@ const BookingManagement = () => {
       {selectedBooking && (
         <div className="modal-overlay" onClick={() => setSelectedBooking(null)}>
           <div className="modal-content animate-fade-in" onClick={e => e.stopPropagation()} style={{ maxWidth: '500px' }}>
-            <h3 style={{ borderBottom: '1px solid #eee', paddingBottom: '1rem' }}>Booking Details ({selectedBooking.pnr})</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '1rem' }}>
-              <div>
-                <p><strong>Passenger Name:</strong><br/>{selectedBooking.passengerName}</p>
-                <p><strong>Email:</strong><br/>{selectedBooking.passengerEmail}</p>
-                <p><strong>Phone:</strong><br/>{selectedBooking.passengerPhone}</p>
+            <h3 style={{ borderBottom: '1px solid #eee', paddingBottom: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              Booking Details ({selectedBooking.pnr})
+              {isEditing && <span className="status-badge pending">Edit Mode</span>}
+            </h3>
+
+            {isEditing ? (
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem', marginTop: '1rem' }}>
+                <div className="input-group" style={{ marginBottom: 0 }}>
+                  <label>Passenger Name</label>
+                  <input className="input-field" value={editForm.passengerName} onChange={e => setEditForm({...editForm, passengerName: e.target.value})} />
+                </div>
+                <div className="input-group" style={{ marginBottom: 0 }}>
+                  <label>Seat Number</label>
+                  <input className="input-field" value={editForm.seatNumber} onChange={e => setEditForm({...editForm, seatNumber: e.target.value})} />
+                </div>
+                <div className="input-group" style={{ marginBottom: 0 }}>
+                  <label>Status</label>
+                  <select className="input-field" value={editForm.status} onChange={e => setEditForm({...editForm, status: e.target.value})}>
+                    <option value="Confirmed">Confirmed</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Cancelled">Cancelled</option>
+                    <option value="Completed">Completed</option>
+                  </select>
+                </div>
+                <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                  <button className="btn btn-primary flex-1" onClick={handleSaveEdit}>
+                    <Save size={16} /> Save Changes
+                  </button>
+                  <button className="btn btn-secondary flex-1" onClick={() => setIsEditing(false)}>Cancel</button>
+                </div>
               </div>
-              <div>
-                <p><strong>Flight ID:</strong><br/>{selectedBooking.flightId}</p>
-                <p><strong>Seat Number:</strong><br/>{selectedBooking.seatNumber}</p>
-                <p><strong>Total Amount:</strong><br/>₹{selectedBooking.totalAmount}</p>
-              </div>
-            </div>
-            <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid #eee' }}>
-              <p><strong>Status:</strong> {selectedBooking.status}</p>
-              <p><strong>Created At:</strong> {new Date(selectedBooking.createdAt).toLocaleString()}</p>
-            </div>
-            <button className="btn btn-primary w-full mt-4" onClick={() => setSelectedBooking(null)}>Close</button>
+            ) : (
+              <>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '1rem' }}>
+                  <div>
+                    <p><strong>Passenger Name:</strong><br/>{selectedBooking.passengerName}</p>
+                    <p><strong>Email:</strong><br/>{selectedBooking.passengerEmail}</p>
+                    <p><strong>Phone:</strong><br/>{selectedBooking.passengerPhone}</p>
+                  </div>
+                  <div>
+                    <p><strong>Flight ID:</strong><br/>{selectedBooking.flightId}</p>
+                    <p><strong>Seat Number:</strong><br/>{selectedBooking.seatNumber}</p>
+                    <p><strong>Total Amount:</strong><br/>₹{selectedBooking.totalAmount}</p>
+                  </div>
+                </div>
+                <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid #eee' }}>
+                  <p><strong>Status:</strong> {selectedBooking.status}</p>
+                  <p><strong>Created At:</strong> {new Date(selectedBooking.createdAt).toLocaleString()}</p>
+                </div>
+                <button className="btn btn-primary w-full mt-4" onClick={() => setSelectedBooking(null)}>Close</button>
+              </>
+            )}
           </div>
         </div>
       )}

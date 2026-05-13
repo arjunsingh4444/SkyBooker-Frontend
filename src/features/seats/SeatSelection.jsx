@@ -65,32 +65,7 @@ const SeatSelection = () => {
     }
   };
 
-  const handleDirectBookDemo = async () => {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-    if (!selectedSeat) return;
 
-    try {
-      const res = await seatClient.post('/Seat/book', {
-        flightId: parseInt(flightId),
-        seatNumber: selectedSeat.seatNumber,
-        userId: user.id
-      });
-      
-      if (res.data.success) {
-        alert('Seat booked directly! (Admin Demo)');
-        setSelectedSeat(null);
-        fetchSeats();
-      } else {
-        setError(res.data.message || 'Seat could not be booked');
-        fetchSeats();
-      }
-    } catch (err) {
-      setError('An error occurred while booking the seat');
-    }
-  };
 
   return (
     <div className="seats-container animate-fade-in">
@@ -147,11 +122,7 @@ const SeatSelection = () => {
             <button className="btn btn-primary" onClick={handleLockSeat}>
               Lock & Proceed to Checkout
             </button>
-            {user?.role === 'Admin' && (
-              <button className="btn btn-secondary" onClick={handleDirectBookDemo} style={{ background: '#f59e0b', color: 'white', border: 'none' }}>
-                Admin Demo: Direct Book
-              </button>
-            )}
+
           </div>
         </div>
       )}

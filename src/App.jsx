@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Home from './features/flights/Home';
 import Login from './features/auth/Login';
 import Register from './features/auth/Register';
+import Profile from './features/auth/Profile';
 import FlightResults from './features/flights/FlightResults';
 import SeatSelection from './features/seats/SeatSelection';
 import Checkout from './features/booking/Checkout';
@@ -14,6 +15,7 @@ import BookingManagement from './features/admin/BookingManagement';
 import MyBookings from './features/booking/MyBookings';
 import SavedPassengers from './features/passenger/SavedPassengers';
 import NotificationCenter from './features/admin/NotificationCenter';
+import UserManagement from './features/admin/UserManagement';
 
 function App() {
   return (
@@ -27,6 +29,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/my-bookings" element={<MyBookings />} />
             <Route path="/saved-passengers" element={<SavedPassengers />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/flights" element={<FlightResults />} />
             <Route path="/seats/:flightId" element={<SeatSelection />} />
             <Route path="/checkout" element={<Checkout />} />
@@ -35,6 +38,7 @@ function App() {
             <Route path="/admin/seats" element={<SeatManagement />} />
             <Route path="/admin/bookings" element={<BookingManagement />} />
             <Route path="/admin/notifications" element={<NotificationCenter />} />
+            <Route path="/admin/users" element={<UserManagement />} />
           </Routes>
         </main>
       </div>

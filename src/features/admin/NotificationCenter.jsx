@@ -64,6 +64,7 @@ const NotificationCenter = () => {
         <h1 className="admin-title">Notification Center</h1>
         <div style={{ display: 'flex', gap: '1rem' }}>
           <button onClick={() => navigate('/admin')} className="btn btn-secondary">Flights</button>
+          <button onClick={() => navigate('/admin/users')} className="btn btn-secondary">Users</button>
           <button onClick={() => navigate('/admin/bookings')} className="btn btn-secondary">Bookings</button>
           <button onClick={() => navigate('/admin/seats')} className="btn btn-secondary">Seats</button>
         </div>

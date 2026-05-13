@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// All requests now go through the Ocelot API Gateway on port 5000
-const API_GATEWAY = 'http://localhost:5000/api';
+// All requests now go through the Ocelot API Gateway
+const API_GATEWAY = import.meta.env.VITE_API_GATEWAY_URL || 'http://localhost:5000/api';
 
 // Create a generic function to build Axios instances
 const createApiClient = (baseURL) => {

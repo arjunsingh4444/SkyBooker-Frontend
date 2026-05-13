@@ -23,6 +23,7 @@ const Checkout = () => {
   const [error, setError] = useState('');
   const [processing, setProcessing] = useState(false);
   const [savedPassengers, setSavedPassengers] = useState([]);
+  const [usingSavedPassenger, setUsingSavedPassenger] = useState(false);
 
   useEffect(() => {
     const fetchSaved = async () => {
@@ -44,6 +45,8 @@ const Checkout = () => {
 
   const handleInputChange = (e) => {
     setPassenger({ ...passenger, [e.target.name]: e.target.value });
+    // User is manually editing, so they're no longer using a saved passenger as-is
+    setUsingSavedPassenger(false);
   };
 
   const handleSelectSavedPassenger = (e) => {
@@ -59,6 +62,7 @@ const Checkout = () => {
         dateOfBirth: p.dateOfBirth ? p.dateOfBirth.split('T')[0] : '',
         nationality: p.nationality
       });
+      setUsingSavedPassenger(true);
     }
   };
 
@@ -72,11 +76,22 @@ const Checkout = () => {
     setError('');
 
     try {
-      // 1. Create Passenger Profile First (Saves to their address book for future)
-      try {
-        await passengerClient.post('/Passenger', passenger);
-      } catch (err) {
-        console.warn('Could not save passenger to profile, but continuing checkout', err);
+      // 1. Save passenger profile only if NOT already a saved passenger
+      if (!usingSavedPassenger) {
+        // Check if this passenger already exists in saved list (match by name + DOB)
+        const alreadyExists = savedPassengers.some(
+          p => p.firstName.toLowerCase() === passenger.firstName.toLowerCase()
+            && p.lastName.toLowerCase() === passenger.lastName.toLowerCase()
+            && p.dateOfBirth && passenger.dateOfBirth
+            && p.dateOfBirth.split('T')[0] === passenger.dateOfBirth
+        );
+        if (!alreadyExists) {
+          try {
+            await passengerClient.post('/Passenger', passenger);
+          } catch (err) {
+            console.warn('Could not save passenger to profile, but continuing checkout', err);
+          }
+        }
       }
 
       // 2. Create Booking
